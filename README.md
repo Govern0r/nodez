@@ -61,12 +61,11 @@ const game = new Game({
     end(game){  }                               // TODO - Not functional yet
 })
 
-// Call game.start() to launch it!
-game.start()
+game.start()                                    // Call game.start() to launch it!
 ```
 
 ## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+Pull req!
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
