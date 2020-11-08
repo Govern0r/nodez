@@ -64,8 +64,5 @@ const game = new Game({
 game.start()                                    // Call game.start() to launch it!
 ```
 
-## Contributing
-Pull req!
-
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
