@@ -2,6 +2,8 @@
 
 Nodez is a low-fidelity HTML5 / javascript game engine. Still under construction.
 
+![Nodez Game Engine](/misc/nodez-gif.gif)
+
 ## Installation
 
 Copy the dist/Game.js file into your project, and link to it using a script tag in your HTML.
