@@ -1,6 +1,6 @@
-# Nodez.js
+# Nodez
 
-Nodez is a low-fidelity HTML5 / javascript game engine.
+Nodez is a low-fidelity HTML5 / javascript game engine. Still under construction.
 
 ## Installation
 
@@ -35,11 +35,11 @@ Here is an example:
 
 ```javascript
 const game = new Game({
-    maxUpdatesPerSec: 10,
-    element: document.getElementById('game'),
-    size: 32,
-    baseColor: '#c4c5d0', // The 
-    colors: { // Colors you can access later via game.colors[colorName]
+    maxUpdatesPerSec: 10,                       // Max amount of times to call update() each second
+    element: document.getElementById('game'),   // The HTML element that contains the game
+    size: 32,                                   // Grid size. Maximum is 128x128
+    baseColor: '#c4c5d0',                       // Default node color
+    colors: {                                   // Colors you can access later via game.colors[colorName]
         'red': '#f94144',
         'darkOrange': '#f3722c',
         'orange': '#f8961e',
@@ -48,24 +48,17 @@ const game = new Game({
         'aqua': '#43aa8b',
         'blue': '#577590'
     },
-    create(game){
-        // Create is called once at the start of the game.
-        // This is where you can initialize the state of the grid
-    },
-    update(game){
-        // Update is called every tick.
-        // Updates per second is determined by the config value you set.
-        // This example gives 10 random dots each a random color
+    create(game){  },                           // Called once at the start of the game.
+    update(game){                               // Called every tick.
         for(let i=0;i<10;i++){
-            game.setDot(...game.randomPosition(), game.randomColor())
+            game.setDot(
+                ...game.randomPosition(),
+                game.randomColor()
+            )
         }
     },
-    input(game){
-        // TODO - Not functional yet
-    },
-    end(game){
-        // This is called after the game stops
-    }
+    input(game){  },                            // TODO - Not functional yet
+    end(game){  }                               // TODO - Not functional yet
 })
 
 // Call game.start() to launch it!
