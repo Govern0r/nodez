@@ -13,6 +13,7 @@ const game = new Game({
         'aqua': '#43aa8b',
         'blue': '#577590'
     },
+    inputs: ['up', 'down', 'left', 'right'], // Inputs we want to track
     create(game){
         console.log(game)
     },
@@ -20,12 +21,6 @@ const game = new Game({
         for(let i=0;i<10;i++){
             game.setDot(...game.randomPosition(), game.randomColor())
         }
-    },
-    input(game){
-        // Not functional up yet
-    },
-    end(){
-
     }
 })
 game.start()

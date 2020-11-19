@@ -2,12 +2,13 @@ import Utils from './Utils'
 import Grid from './Grid'
 import Ticker from './Ticker'
 import HTMLRenderer from './HTMLRenderer'
+import Inputs from './Inputs'
 
 // Can be swapped easily in future
 const Renderer = HTMLRenderer
 
 export default class Game {
-    constructor({ create, update, end, input, maxUpdatesPerSec, element, size, baseColor, colors }){
+    constructor({ create, update, end, input, maxUpdatesPerSec, element, size, baseColor, colors, inputs }){
         // Logic
         this.create = create
         this._update = update
@@ -15,6 +16,7 @@ export default class Game {
         this.onInput = input
 
         // State
+        this._inputs = new Inputs(inputs)
         this.grid = new Grid({ size, baseColor })
         this.renderer = new Renderer({ element, grid: this.grid })
         this.ticker = new Ticker({ maxUpdatesPerSec, context: this })
@@ -24,6 +26,9 @@ export default class Game {
             'blue': 'blue',
             'red': 'red'
         }
+    }
+    get inputs(){
+        return this._inputs.state
     }
     randomPosition(){
         return [
