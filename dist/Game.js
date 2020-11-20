@@ -17,12 +17,17 @@ var Game = (function () {
             return items[Math.floor(Math.random() * items.length)]
         }
 
+        static clamp(val, min, max){
+            return min > val? min : (max < val? max : val)
+        }
+
     }
 
     class Grid {
         constructor({ size = 32, baseColor = '#c4c5d0' }){
             if(size > 128) throw Error('Grid cannot be larger than 128 dots')
             this.size = size;
+            this.baseColor = baseColor;
             this.state = [...new Array(size * size)].map(() => baseColor);
             this._changes = []; // [ [index, color], ... ]
         }
@@ -44,8 +49,10 @@ var Game = (function () {
         }
         set(x, y, color){
             const index = this.resolveIndex(x, y);
-            this.state[index] = color;
-            this._changes.push([index, color]);
+            if(this.state[index] !== color){
+                this._changes.push([index, color]);
+                this.state[index] = color;
+            }
         }
         resolveIndex(x, y){
             return ((y-1) * this.size) + (x-1)
@@ -684,17 +691,27 @@ var Game = (function () {
     class Inputs {
         constructor(inputsToTrack){ // element == thing to listen for inputs on
             this.inputsToTrack = inputsToTrack;
+            this.inputStates = {}; // Cache them
             this.init();
         }
         get state(){
-            const inputStates = {};
-            for(let input of this.inputsToTrack){
-                inputStates[input] = hotkeys.isPressed(input);
+            const inputStates = {...this.inputStates};
+            for(let id in inputStates){
+                inputStates[id] = hotkeys.isPressed(id) || inputStates[id];
             }
+            this.resetInputStates();
             return inputStates
         }
         init(){ // create the event listeners
-            hotkeys(this.inputsToTrack, () => {/* null handler */});
+            this.resetInputStates();
+            hotkeys(this.inputsToTrack.join(', '), (e, handler) => {
+                this.inputStates[handler.key] = true;
+            });
+        }
+        resetInputStates(){
+            for(let i of this.inputsToTrack){
+                this.inputStates[i] = false;
+            }
         }
     }
 
@@ -708,6 +725,9 @@ var Game = (function () {
             this._update = update;
             this._end = end;
             this.onInput = input;
+
+            // Utils
+            this.utils = Utils;
 
             // State
             this._inputs = new Inputs(inputs);
@@ -724,6 +744,9 @@ var Game = (function () {
         get inputs(){
             return this._inputs.state
         }
+        get now(){
+            return Date.now()
+        }
         randomPosition(){
             return [
                 Utils.randBetween(1, this.grid.size),
@@ -732,6 +755,13 @@ var Game = (function () {
         }
         randomColor(){
             return this.colors[Utils.randFrom(Object.keys(this.colors))]
+        }
+        clearDots(){
+            for(let i=0;i<this.grid.size;i++){
+                for(let z=0;z<this.grid.size;z++){
+                    this.setDot(i+1, z+1, this.grid.baseColor);
+                }
+            }
         }
         setDot(x, y, color){
             // Validate color is valid

@@ -21,6 +21,9 @@ const game = new Game({
         for(let i=0;i<10;i++){
             game.setDot(...game.randomPosition(), game.randomColor())
         }
+    },
+    end(){
+        
     }
 })
 game.start()

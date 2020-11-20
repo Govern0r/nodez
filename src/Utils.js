@@ -14,4 +14,8 @@ export default class Utils {
         return items[Math.floor(Math.random() * items.length)]
     }
 
+    static clamp(val, min, max){
+        return min > val? min : (max < val? max : val)
+    }
+
 }

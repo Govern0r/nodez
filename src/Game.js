@@ -15,6 +15,9 @@ export default class Game {
         this._end = end
         this.onInput = input
 
+        // Utils
+        this.utils = Utils
+
         // State
         this._inputs = new Inputs(inputs)
         this.grid = new Grid({ size, baseColor })
@@ -30,6 +33,9 @@ export default class Game {
     get inputs(){
         return this._inputs.state
     }
+    get now(){
+        return Date.now()
+    }
     randomPosition(){
         return [
             Utils.randBetween(1, this.grid.size),
@@ -38,6 +44,13 @@ export default class Game {
     }
     randomColor(){
         return this.colors[Utils.randFrom(Object.keys(this.colors))]
+    }
+    clearDots(){
+        for(let i=0;i<this.grid.size;i++){
+            for(let z=0;z<this.grid.size;z++){
+                this.setDot(i+1, z+1, this.grid.baseColor)
+            }
+        }
     }
     setDot(x, y, color){
         // Validate color is valid

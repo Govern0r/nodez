@@ -2,6 +2,7 @@ export default class Grid {
     constructor({ size = 32, baseColor = '#c4c5d0' }){
         if(size > 128) throw Error('Grid cannot be larger than 128 dots')
         this.size = size
+        this.baseColor = baseColor
         this.state = [...new Array(size * size)].map(() => baseColor)
         this._changes = [] // [ [index, color], ... ]
     }
@@ -23,8 +24,10 @@ export default class Grid {
     }
     set(x, y, color){
         const index = this.resolveIndex(x, y)
-        this.state[index] = color
-        this._changes.push([index, color])
+        if(this.state[index] !== color){
+            this._changes.push([index, color])
+            this.state[index] = color
+        }
     }
     resolveIndex(x, y){
         return ((y-1) * this.size) + (x-1)
