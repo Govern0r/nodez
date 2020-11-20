@@ -50,8 +50,12 @@ const game = new Game({
         'aqua': '#43aa8b',
         'blue': '#577590'
     },
+    inputs: [                                   // Array of inputs you will use
+      'up', 'down', 'left', 'right', 'space'
+    ],
     create(game){  },                           // Called once at the start of the game.
     update(game){                               // Called every tick.
+        console.log(game.inputs) /* { up: false, down: false, ... } */
         for(let i=0;i<10;i++){
             game.setDot(
                 ...game.randomPosition(),
@@ -59,12 +63,20 @@ const game = new Game({
             )
         }
     },
-    input(game){  },                            // TODO - Not functional yet
-    end(game){  }                               // TODO - Not functional yet
+    end(game){  }                               // Called after game.stop()
 })
 
 game.start()                                    // Call game.start() to launch it!
 ```
+
+## Examples
+
+Check out the /examples folder
+
+- Random Dots — the most basic example, a bunch of randomly changing dots
+- Zombies — a more advanced example, demonstrating user input handling
+
+![Nodez Game Engine - Zombies Example GIF](/misc/zombies-example.gif)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
